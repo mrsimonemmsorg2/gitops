@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prod-cert-issuers
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: '40'
+spec:
+  project: prod
+  source:
+    repoURL: git@github.com:mrsimonemmsorg2/gitops.git
+    path: registry/clusters/prod/cert-issuers
+    targetRevision: HEAD
+  destination:
+    name: prod
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
