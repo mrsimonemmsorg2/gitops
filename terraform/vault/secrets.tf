@@ -68,7 +68,7 @@ resource "vault_generic_secret" "regsitry_auth" {
 }
 
 resource "vault_generic_secret" "metaphor" {
-  for_each = toset(["development", "staging", "production"])
+  for_each = toset(["demo","development", "staging", "production"])
 
   path = "${vault_mount.secret.path}/${each.key}/metaphor"
   # note: these secrets are not actually sensitive.
