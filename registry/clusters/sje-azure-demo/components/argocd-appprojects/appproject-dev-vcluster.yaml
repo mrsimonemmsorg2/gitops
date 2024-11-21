@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: dev-vcluster
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: dev-vcluster description
+  sourceRepos:
+  - 'git@github.com:mrsimonemmsorg2/gitops.git'
+  - 'https://kubernetes.github.io/ingress-nginx'
+  - 'https://kubernetes-sigs.github.io/external-dns'
+  - 'https://charts.jetstack.io'
+  - 'https://charts.external-secrets.io'
+  - 'https://helm.datadoghq.com'
+  - 'https://stakater.github.io/stakater-charts'
+  - 'https://chartmuseum.azure-demo.kubefirst.simonemms.com'
+  - 'https://charts.loft.sh'
+  - 'https://github.com/cloudflare/origin-ca-issuer'
+  - 'https://cloudflare.github.io/origin-ca-issuer/charts'
+  - '*' # Adding wildcard for the gitops catalog. This wildcard can be removed from the template or after provisioning
+  destinations:
+  - namespace: external-dns
+    name: dev-vcluster
+  - namespace: datadog
+    name: dev-vcluster
+  - namespace: default
+    name: dev-vcluster
+  - namespace: dev-vcluster
+    name: dev-vcluster
+  - namespace: external-secrets-operator
+    name: dev-vcluster
+  - namespace: reloader
+    name: dev-vcluster
+  - namespace: cert-manager
+    name: dev-vcluster
+  - namespace: ingress-nginx
+    name: dev-vcluster
+  - namespace: kube-system
+    name: dev-vcluster
+  - namespace: '*' # Adding wildcard for the gitops catalog. This wildcard can be removed from the template or after provisioning
+    server: '*' # Adding wildcard for the gitops catalog. This wildcard can be removed from the template or after provisioning
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  roles:
+  - description: dev-vcluster-admin-role
+    groups:
+    - admins
+    name: admin-role
+    policies:
+    - p, proj:dev-vcluster:admin-role, applications, *, dev-vcluster/*, allow
