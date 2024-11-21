@@ -30,14 +30,14 @@ spec:
             cert-manager.io/cluster-issuer: letsencrypt-prod
             argocd.argoproj.io/sync-wave: '1'
           hosts:
-            - host: flappy-kray.azure-demo.dev.kubefirst.simonemms.com
+            - host: flappy-kray.dev.azure-demo.kubefirst.simonemms.com
               paths:
                 - path: /
                   pathType: Prefix
           tls:
           - secretName: flappy-kray-tls
             hosts:
-              - flappy-kray.azure-demo.dev.kubefirst.simonemms.com
+              - flappy-kray.dev.azure-demo.kubefirst.simonemms.com
   project: dev-vcluster
   syncPolicy:
     syncOptions:
